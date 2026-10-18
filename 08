@@ -1,0 +1,30 @@
+# Atskaites ID: RVT-4417
+
+$laiks1 = Measure-Command {
+    $serviss1 = Get-Service -Name "Spooler"
+}
+
+$laiks2 = Measure-Command {
+    $serviss2 = Get-CimInstance -ClassName Win32_Service -Filter "Name='Spooler'"
+}
+
+Write-Output "1. veids: Get-Service"
+Write-Output "Nosaukums: $($serviss1.Name)"
+Write-Output "Statuss: $($serviss1.Status)"
+Write-Output "Laiks: $($laiks1.TotalMilliseconds) ms"
+Write-Output ""
+
+Write-Output "2. veids: Get-CimInstance"
+Write-Output "Nosaukums: $($serviss2.Name)"
+Write-Output "Statuss: $($serviss2.State)"
+Write-Output "Laiks: $($laiks2.TotalMilliseconds) ms"
+
+if ($laiks1.TotalMilliseconds -lt $laiks2.TotalMilliseconds) {
+    Write-Output "Atrāks bija pirmais veids."
+}
+elseif ($laiks2.TotalMilliseconds -lt $laiks1.TotalMilliseconds) {
+    Write-Output "Atrāks bija otrais veids."
+}
+else {
+    Write-Output "Abi veidi bija vienādi ātri."
+}
