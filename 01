@@ -1,0 +1,11 @@
+# Atskaites ID: RVT-4417
+
+$os = Get-CimInstance -ClassName Win32_OperatingSystem
+$processi = Get-Process
+
+Write-Output "Datora nosaukums: $env:COMPUTERNAME"
+Write-Output "Operētājsistēma: $($os.Caption)"
+Write-Output "Būvējuma numurs: $($os.BuildNumber)"
+Write-Output "PowerShell versija: $($PSVersionTable.PSVersion)"
+Write-Output "Datums un laiks: $(Get-Date)"
+Write-Output "Darbojošos procesu skaits: $($processi.Count)"
