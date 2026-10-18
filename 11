@@ -1,0 +1,16 @@
+# Atskaites ID: RVT-4417
+
+$adapteri = Get-NetAdapter
+
+$rezultats = foreach ($adapteris in $adapteri) {
+    [PSCustomObject]@{
+        Nosaukums = $adapteris.Name
+        Statuss = $adapteris.Status
+        MAC_adrese = $adapteris.MacAddress
+        Atrums = $adapteris.LinkSpeed
+    }
+}
+
+$rezultats | Format-Table -AutoSize
+
+$rezultats | Export-Csv -Path ".\adapteri.csv" -NoTypeInformation -Encoding UTF8
