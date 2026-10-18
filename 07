@@ -1,0 +1,20 @@
+# Atskaites ID: RVT-4417
+
+$robeza = 10
+
+$diski = Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType=3"
+
+foreach ($disks in $diski) {
+    $izmers = [math]::Round($disks.Size / 1GB, 1)
+    $brivaVieta = [math]::Round($disks.FreeSpace / 1GB, 1)
+
+    Write-Output "Disks: $($disks.DeviceID)"
+    Write-Output "Kopējais izmērs: $izmers GB"
+    Write-Output "Brīvā vieta: $brivaVieta GB"
+
+    if ($brivaVieta -lt $robeza) {
+        Write-Output "BRĪDINĀJUMS: mazāk par $robeza GB brīvas vietas!"
+    }
+
+    Write-Output ""
+}
