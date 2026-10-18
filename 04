@@ -1,0 +1,24 @@
+# Atskaites ID: RVT-4417
+
+param(
+    [switch]$WhatIf
+)
+
+$servisi = @(
+    Get-CimInstance -ClassName Win32_Service |
+        Where-Object {
+            $_.StartMode -eq "Auto" -and $_.State -eq "Stopped"
+        }
+)
+
+if ($servisi.Count -eq 0) {
+    Write-Output "Atrasti servisi: 0"
+}
+else {
+    Write-Output "Atrasti servisi: $($servisi.Count)"
+
+    foreach ($serviss in $servisi) {
+        Write-Output "Serviss: $($serviss.Name)"
+        Start-Service -Name $serviss.Name -WhatIf:$WhatIf -ErrorAction Continue
+    }
+}
