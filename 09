@@ -1,0 +1,18 @@
+# Atskaites ID: RVT-4417
+
+$procesi = Get-CimInstance -ClassName Win32_Process
+
+foreach ($process in $procesi) {
+    Write-Output "Process: $($process.Name); ID: $($process.ProcessId)"
+
+    $lietotajs = Invoke-CimMethod -InputObject $process -MethodName GetOwner -ErrorAction Continue
+
+    if ($null -ne $lietotajs -and $lietotajs.ReturnValue -eq 0) {
+        Write-Output "Lietotājs: $($lietotajs.Domain)\$($lietotajs.User)"
+    }
+    else {
+        Write-Output "Lietotāju noteikt neizdevās."
+    }
+
+    Write-Output ""
+}
